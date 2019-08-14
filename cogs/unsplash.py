@@ -66,6 +66,39 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
                 await ctx.send(embed=embed)
 
 
+    #If your query contains a space replace it  with '-'. For example, if your search query is white house, instead use white-house.
+    #I will eventually auto add it, but for now, just add it manually. It's easy.
+    @unsplash.command()
+    async def photosearch(self, ctx, query=None):
+        if query == None:
+            embed = discord.Embed(colour=0xffffff, description="No search query was provided")
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(name="Something is not right...")
+            embed.set_footer(text="Cog made by brady#5078")
+            await ctx.send(embed=embed)
+        else:
+            try:
+                url = f'https://api.unsplash.com/search/photos?page=1&query={query}&per_page=1'
+                r = requests.get(url, headers=self.headers)
+                data = r.json()
+                embed = discord.Embed(colour=int(data['results'][0]['color'].strip('#'), 16))
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_image(url=f"{data['results'][0]['urls']['regular']}")
+                embed.set_author(name=f"Photo by {data['results'][0]['user']['name']} on Unsplash", url=f"{data['results'][0]['user']['links']['html']}")
+                embed.set_footer(text="Cog made by brady#5078")
+                embed.add_field(name="Photo Likes", value=f"`{data['results'][0]['likes']}`", inline=True)
+                embed.add_field(name="More info about photo", value=f"[Click here]({data['results'][0]['links']['html']})", inline=True)
+                try:
+                    embed.add_field(name="Photo Description", value= f"`{data['results'][0]['description']}`", inline=True)
+                except:
+                    embed.add_field(name="Photo Description", value= f"`No Description Provided`", inline=True)
+                await ctx.send(embed=embed)
+            except:
+                embed = discord.Embed(colour=0xffffff, description="No photos for query provided")
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(name="Something is not right...")
+                embed.set_footer(text="Cog made by brady#5078")
+                await ctx.send(embed=embed)
             
 
 
