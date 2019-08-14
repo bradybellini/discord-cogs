@@ -19,7 +19,7 @@ class Unsplash(commands.Cog, name='Unsplahs API Cog'):
         url = f'https://api.unsplash.com/photos/random'
         r = requests.get(url, headers=self.headers)
         data = r.json()
-        embed = discord.Embed(colour=0xffffff)
+        embed = discord.Embed(colour=int(data['color'].strip('#'), 16))
         embed.timestamp = datetime.datetime.utcnow()
         embed.set_image(url=f"{data['urls']['regular']}")
         embed.set_author(name=f"Photo by {data['user']['name']} on Unsplash", url=f"{data['user']['links']['html']}")
@@ -36,7 +36,7 @@ class Unsplash(commands.Cog, name='Unsplahs API Cog'):
     @unsplash.command()
     async def profile(self, ctx, username=None):
         if not username == None:
-            pass
+            
 
 
 
