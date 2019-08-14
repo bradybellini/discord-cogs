@@ -3,6 +3,10 @@ import requests
 import datetime
 from discord.ext import commands
 
+###########################
+#   Made by: brady#5078   #
+###########################
+
 class Unsplash(commands.Cog, name='Unsplash API Cog'):
 
     def __init__(self, client):
