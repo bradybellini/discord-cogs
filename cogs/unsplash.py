@@ -47,7 +47,6 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
                 r = requests.get(url, headers=self.headers)
                 data = r.json()
                 embed = discord.Embed(colour=0x845169, description=f"{data['bio']}")
-                embed = discord.Embed(colour=0x845169, description="No bio")
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_thumbnail(url=f"{data['profile_image']['small']}")
                 embed.set_author(name=f"{data['name']} on Unsplash", url=f"https://unsplash.com/@{username}", icon_url=f"{data['profile_image']['large']}")
