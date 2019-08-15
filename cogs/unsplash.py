@@ -27,7 +27,7 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
         embed.timestamp = datetime.datetime.utcnow()
         embed.set_image(url=f"{data['urls']['regular']}")
         embed.set_author(name=f"Photo by {data['user']['name']} on Unsplash", url=f"{data['user']['links']['html']}")
-        embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}') #add your own bot name and profile image if you prefer
+        embed.set_footer(text="Cog made by brady#5078") #add your own bot name and profile image if you prefer
         embed.add_field(name="Photo Downloads", value=f"`{data['downloads']}`", inline=True)
         embed.add_field(name="Photo Likes", value=f"`{data['likes']}`", inline=True)
         try:
@@ -43,7 +43,7 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
             embed = discord.Embed(colour=0xffffff, description="No username was provided")
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(name="Something is not right...")
-            embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+            embed.set_footer(text="Cog made by brady#5078")
             await ctx.send(embed=embed)
         else:
             try:
@@ -54,7 +54,7 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_thumbnail(url=f"{data['profile_image']['small']}")
                 embed.set_author(name=f"{data['name']} on Unsplash", url=f"https://unsplash.com/@{username}", icon_url=f"{data['profile_image']['large']}")
-                embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+                embed.set_footer(text="Cog made by brady#5078")
                 embed.add_field(name="Total Downloads", value=f"`{data['downloads']}`", inline=True) #add your own bot name and profile image if you prefer
                 embed.add_field(name="Total Likes", value=f"`{data['total_likes']}`", inline=True)
                 embed.add_field(name="Total Photos", value=f"`{data['total_photos']}`", inline=True)
@@ -66,12 +66,13 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
                 embed = discord.Embed(colour=0xffffff, description="This user does not exist")
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(name="Something is not right...")
-                embed.set_footer(text="Marvin", icon_url=f'{self.client.user.avatar_url}')
+                embed.set_footer(text="Cog made by brady#5078")
                 await ctx.send(embed=embed)
 
 
-    #If your query contains a space replace it  with '-'. For example, if your search query is white house, instead use white-house.
+    #If your query contains a space replace it  with '-'. For example, if your search query is white house, instead use white-house or it will just search for white.
     #I will eventually auto add it, but for now, just add it manually. It's easy.
+    #If you want more than the first result just copy/pase the else statement and change the lists to 1 to get the second query
     @unsplash.command()
     async def photosearch(self, ctx, query=None):
         if query == None:
@@ -82,7 +83,7 @@ class Unsplash(commands.Cog, name='Unsplash API Cog'):
             await ctx.send(embed=embed)
         else:
             try:
-                url = f'https://api.unsplash.com/search/photos?page=1&query={query}&per_page=1'
+                url = f'https://api.unsplash.com/search/photos?page=1&query={query}&per_page=1' #change the amount of results the API gets per page. Follow API guidlines.
                 r = requests.get(url, headers=self.headers)
                 data = r.json()
                 embed = discord.Embed(colour=int(data['results'][0]['color'].strip('#'), 16))
